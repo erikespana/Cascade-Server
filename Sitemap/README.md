@@ -1,0 +1,1 @@
+This is a collection of XSLT scripts that generate different kinds of sitemaps from Cascade Server sites.
