@@ -1,0 +1,21 @@
+#set ( $block = $_XPathTool.selectSingleNode($contentRoot, "/system-index-block") )
+#set ( $page = $_XPathTool.selectSingleNode($block, "calling-page/system-page") )
+#set ( $data = $page.getChild('system-data-structure') )
+
+#if ( $page.getChild("title") )
+	<h1>$_SerializerTool.serialize( $page.getChild('title'), true )</h1>
+#end
+
+#if ( $data.getChild("content") )
+	$_SerializerTool.serialize( $page.getChild('content'), true )
+#end
+
+#if ( $data.getChild("start-date") )
+	#set ( $startDateNode = $page.getChild( 'start-date' ).value )
+	#set ( $startDate = $_DateTool.getDate( $startDateNode ))
+	<p><strong>Start Date: $_DateTool.format("MMMM dd, yyyy", $startDate)</strong></p>
+#end
+
+#foreach ($item in $items)
+	$item
+#end

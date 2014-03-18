@@ -1,0 +1,28 @@
+## Constants
+
+#set ( $xPath = "//system-page[is-published][not(starts-with(path, '/news'))]")
+#set ( $rootURL = "http://www.union.edu")
+#set ( $defaultExtension = ".php")
+#set ( $todaysDate = $_DateTool.getDate() )
+#set ( $lastPublished = $_DateTool.format('EEEEE MM/dd/yy h:mm a z', $todaysDate) )
+
+## XPath
+
+#set ( $block = $_XPathTool.selectNodes($contentRoot, $xPath) )
+##$_SortTool.addSortCriterion("last-published-on", "", "number", "descending", "")
+##$_SortTool.sort($block)
+
+## Create sitemap
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" lastUpdated="${lastPublished}">
+    #foreach ( $page in $block )
+
+        #set ( $path = $page.getChild("path").value )
+        #set ( $pubDate = $_DateTool.getDate( $page.getChild("last-published-on").value ) )
+        #set ( $lastPublished = $_DateTool.format('yyyy-MM-dd', $pubDate ) )
+        <url>
+            <loc>${rootURL}${_EscapeTool.xml($path)}${defaultExtension}</loc>
+            <lastmod>${lastPublished}</lastmod>
+        </url>
+    #end
+</urlset>

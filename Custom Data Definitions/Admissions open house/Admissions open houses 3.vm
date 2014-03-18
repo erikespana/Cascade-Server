@@ -1,0 +1,72 @@
+## Overview
+##
+## Generates an unordered list of open houses from a (folder) index block.
+##
+## - Events are listed in ascending order by the "Display on main page until" date (data definition).
+## - Uses the "more" field (dynamic metadata) to conditionally link the title.
+
+##  Configurable variables
+
+##set ($currentDate = $_XPathTool.selectSingleNode( $currentRoot, "/system-index-block/@current-time" ) )
+
+
+## Set how the date is displayed.
+#set ( $datePattern = 'MMMM d' )
+## http://docs.oracle.com/javase/1.5.0/docs/api/java/text/SimpleDateFormat.html
+
+
+#set ( $count = $_XPathTool.selectSingleNode($contentRoot, "count(//system-page[system-data-structure/event-date > /system-index-block/@current-time])") )
+
+
+#if ( $count > 0 ) 
+
+    ### Set a variable containing the system-page elements
+
+    #set ( $openHouses = $_XPathTool.selectNodes( $contentRoot, "//system-page[dynamic-metadata[name='public']/value = 'Yes'][system-data-structure/event-date > /system-index-block/@current-time]") )
+    $_SortTool.addSortCriterion("system-data-structure/event-date", "", "number", "ascending", "")  
+    $_SortTool.sort($openHouses)  
+
+    <div class="box-title">Dates and Deadlines:</div>
+
+    <ul class="links-list links-list-alt">
+        
+        #foreach ( $systemPage in $openHouses )
+
+            #set ( $dataDefinition = $systemPage.getChild('system-data-structure') )
+            #set ( $eventDate = $_DateTool.getDate( $dataDefinition.getChild('event-date').value ) )
+            #set ( $formatDate = $_DateTool.format( $datePattern, $eventDate ) )
+            #set ( $title = $systemPage.getChild('title').value )
+            #set ( $more = $_XPathTool.selectSingleNode($systemPage, "dynamic-metadata[name='more']/value") )
+
+            <li>
+            
+            ## Display more link if dynamic metadata more = 'Yes'
+            
+         
+            #if ($more.value == 'Yes')
+                <a href="${systemPage.getChild('link').value}">$title</a>    ${formatDate}
+            #else
+                ${title}<br/>${formatDate}
+            #end
+            </li>
+        #end
+        
+      
+    </ul>
+<ul class="links-list links-list-alt">
+        <li><a href="/admissions/apply/dates" title="Important Dates">Other Important Dates</a></li></ul>
+    
+#else
+    <div class="box-title">Resources</div>
+    
+    <div class="aside-widget">
+    <ul class="links-list links-list-alt">
+        <li><a href="/admissions/apply/dates" title="Important Dates">Important Dates</a></li>
+        <li><a href="/admissions/area/index.php" title="Area Information">Area Information</a></li>
+        <li><a href="/admissions/blogs/index.php" title="Student Blogs">Student Blogs</a></li>
+    </ul>
+</div>
+   
+    
+#end
+<br />

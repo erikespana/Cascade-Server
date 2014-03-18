@@ -1,0 +1,36 @@
+#*  Creates a section for each major in feeds-majors.ini.
+
+    [section] (lowercase alpha-num w/out spaces or special characters)
+    TITLE = "Chemistry"
+    SHOW_TITLE = 0
+    CONTENT_TYPE = "html"
+    CONTENT_HTML = "<p>...</p>"
+*#
+#set ( $block = $_XPathTool.selectNodes( $contentRoot, "//system-page" ) )
+$_SortTool.addSortCriterion( "display-name", "", "text", "ascending", "upper-first" )
+$_SortTool.sort( $block )
+<!--#START-ROOT-CODE
+#foreach( $page in $block )
+#set ( $data =		$_XPathTool.selectSingleNode($page, "system-data-structure/content")  )
+#set ( $id =        $page.getAttribute( "id" ).value )
+#set ( $name =      $page.getChild( 'name' ).text )
+#set ( $display-name = $page.getChild( 'display-name' ).text )
+#set ( $path =      $page.getChild( 'path' ).text )
+#set ( $location =  $_XPathTool.selectSingleNode($page, "dynamic-metadata[name='location']/value").text )
+#set ( $phone =     $_XPathTool.selectSingleNode($page, "dynamic-metadata[name='phone']/value").text    )
+#set ( $email =     $_XPathTool.selectSingleNode($page, "dynamic-metadata[name='email']/value").text    )
+#set ( $mapLink =   $_XPathTool.selectSingleNode($page, "dynamic-metadata[name='mapLink']/value").text  )
+#set ( $pageIntro = $_SerializerTool.serialize( $data.getChild("pageIntroduction"), true ) )
+#if ( $name == 'index')[${id}]
+TITLE = "${_EscapeTool.xml( $display-name )}"
+SHOW_TITLE = 0
+CONTENT_TYPE = "html"
+CONTENT_HTML = "${pageIntro}
+<p>Learn more on our <a href='http://www.union.edu${path}.php'>website</a>.</p>
+<p><b>Contact Us</b></p>
+<p><a href='$mapLink'>${location}</a><br/>807 Union Street<br/>Schenectady, NY 12308</p>
+<p><a href='tel:${phone}'>${phone}</a></p>
+<p><a href='mailto:${email}'>${email}</a></p>"
+#end
+#end
+#END-ROOT-CODE-->

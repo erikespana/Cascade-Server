@@ -1,0 +1,50 @@
+## // Get all Forms sorted by date published.
+
+#set ($forms = $_XPathTool.selectNodes($contentRoot, "//Form"))
+$_SortTool.addSortCriterion("DateCreated", "", "text", "descending", "")
+##$_SortTool.addSortCriterion("path", "", "text", "ascending", "")
+$_SortTool.sort($forms)
+
+
+## // Style the table with CSS
+
+<style>
+thead th    { text-align: center; font-weight: bold; }
+td, th       { margin-left: 10px; margin-right: 10px; }
+</style>
+
+
+## // Table headers
+
+<table style="width:900px">
+<thead>
+    <tr>
+        <th>Form</th>
+        <th>Created</th>
+        <th>Notifications</th>
+    </tr>
+</thead>
+
+
+## // For each Form, create a table row
+
+#foreach ( $form in $forms )
+
+    #set ( $name = $form.getChild("Name").value )
+    #set ( $email = $form.getChild("Email").value )
+    #set ( $textDate = $form.getChild("DateCreated") )
+    #set ( $pattern = "yyyy-MM-dd HH:mm:ss" )
+    #set ( $createdDate = $_DateTool.toDate($pattern, $textDate.value) )
+
+    <tr>
+        <td>$_EscapeTool.xml( $form.getChild("Name").value )</td>
+        <td> $_DateTool.format("MM/dd/yyyy", $createdDate )</td>
+        <td style="padding-left:10px;">$_DisplayTool.truncate( $_EscapeTool.xml($email), 75,"...",true)</td>
+    </tr>
+#end
+
+
+
+## // Close the table tag
+
+</table>

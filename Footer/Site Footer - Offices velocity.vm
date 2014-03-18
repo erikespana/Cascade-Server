@@ -1,0 +1,58 @@
+## // Get the <system-page> element for the current page
+#set ( $currentPage = $_XPathTool.selectSingleNode( $contentRoot, "//system-page[@current='true']" ) )
+
+<!--========== Begin Footer ==========-->
+<hr class="hide"/>
+<div class="footer-content" id="footer">
+    <p class="vcard">
+        <span itemtype="http://schema.org/Organization" itemscope="itemscope" itemprop="publisher">
+<span itemprop="name" class="fn org">Union College</span>
+</span> 
+            <span class="adr">
+                <span class="street-address">807 Union St.</span>
+                <span class="locality">Schenectady</span>,
+                <span class="region">NY</span>
+                <span class="postal-code">12308</span>
+            </span>
+        <span class="tel">(518) 388-6000</span>
+    </p>
+    ## // Get the Display Name from the Current + Hierarchy index block
+    #set ( $officeDisplayName =
+        $_XPathTool.selectSingleNode( $contentRoot,
+                        "//system-folder[link='site://reboot/offices']/system-folder/display-name" ) )
+    #if ( $officeDisplayName )
+        #set ( $office = $_SerializerTool.serialize( $officeDisplayName, false ) )
+    #else
+        #set ( $office = "The Office of Communications &amp; Marketing")
+    #end
+    <p>This page maintained by the <span class="officename"> $office Office</span>. &#169;  2014 </p>
+    
+    
+    ## // Get the last modified as a Java Date object.
+    #set ( $lastModifiedOn = $_DateTool.getDate( $currentPage.getChild('last-modified').value ) )
+    <p>
+        <span class="officename">Last modified on $_DateTool.format( 'EEEEE, MMMM dd, yyyy', $lastModifiedOn )
+
+        
+    #set ( $lastModifiedBy = $currentPage.getChild('last-modified-by').value )
+    #if (($lastModifiedBy != 'georgek') and ($lastModifiedBy != 'espanae') and ($lastModifiedBy != 'slaterj') and ($lastModifiedBy != 'durid') and ($lastModifiedBy != 'capaldix') and ($lastModifiedBy != 'presendm'))
+        by ${lastModifiedBy}@union.edu
+    #end
+    
+    </span>
+    </p>
+
+    <div class="social-links">
+<ul class="socialicons">
+<li><a title="Facebook" target="_blank" href="http://www.facebook.com/unioncollege" class="facebook"></a></li>
+<li><a title="Twitter" target="_blank" href="http://twitter.com/unioncollegeny" class="twitter"></a></li>
+<li><a title="Flickr" target="_blank" href="http://www.flickr.com/photos/union_college/sets/" class="flickr"></a></li>
+<li><a title="Youtube" target="_blank" href="http://www.youtube.com/user/unioncollege" class="youtube"></a></li>
+<li><a title="Linkedin" target="_blank" href="http://www.linkedin.com/company/union-college" class="linkedin"></a></li>
+<li><a title="WordPress" target="_blank" href="http://muse.union.edu/unfiltered" class="wordpress"></a></li>
+</ul>
+</div>
+<!-- close social-links div -->
+</div>
+<!-- close footer div -->
+<!--========== Footer ==========-->

@@ -1,0 +1,88 @@
+#set ( $systemPage = $_XPathTool.selectSingleNode( $contentRoot, "//system-page[@current]" ) )
+
+#set ( $summaryNodes = $_XPathTool.selectNodes( $systemPage, "summary" ) )
+#if ( $summaryNodes.size() > 0 )
+    <p>${systemPage.getChild('summary').value}</p>
+#end
+
+##
+## Get the data definition section from the current page XML
+##
+
+#set ( $dataDefinition = $_XPathTool.selectSingleNode( $systemPage, "//system-page[@current]/system-data-structure" ) )
+
+##
+## Get the event date as a Java Date object.
+##
+
+#set ( $eventDate = $_DateTool.getDate( $dataDefinition.getChild('event-date').value ) )
+
+##      
+## Format the event date as Monday, May 30, 2011
+##
+
+<h2>$_DateTool.format('EEEEE, MMMM d, yyyy', $eventDate)</h2>
+
+##
+## Show the Registration link (if one exists)
+##
+
+#if ( $dataDefinition.getChild('register').value != '' )
+    <p>
+        <a target="_blank" href="${dataDefinition.getChild('register').value}">Register here</a>
+    </p>
+#end
+
+##
+## Show the Description (if one exists)
+##
+
+#if ( $dataDefinition.getChild('description').value != '' )
+    <p>
+        ${dataDefinition.getChild('description').value}
+    </p>
+#end
+
+
+##// Get the Schedule of Events section from the current page XML
+
+#set ($Schedule = $_XPathTool.selectNodes($contentRoot, "//system-page/system-data-structure/Schedule") )
+
+
+##// if ( $Schedule.getChild('title').value != '')
+    
+
+    <h2>Schedule of Events</h2>
+    <style>
+        .indent { margin-left:60px; }
+    </style>
+
+    #foreach ( $schedule in $Schedule )
+        <h3>
+            ##// Show the time (if one exists), title, location (I.O.E.) and instructions (I.O.E.)
+            
+            #if ( $schedule.getChild('time').value != '' )
+                ${schedule.getChild('time').value}</h3><p>
+            #end
+
+            
+            ##// Get events from the current page XML
+            #set ($events = $_XPathTool.selectNodes($schedule, "event") )
+
+            
+            #foreach ( $event in $events )
+                <div class="indent">
+                    <strong>${event.getChild('title').value}</strong>
+                
+                #if ( $event.getChild('location').value != '' )
+                    <br/>${event.getChild('location').value}
+                #end
+
+                #if ( $event.getChild('instructions').value != '')
+                    <br/><em>${event.getChild('instructions').value}</em>
+                #end
+                </div>
+            #end
+        </p>
+    #end
+##// end

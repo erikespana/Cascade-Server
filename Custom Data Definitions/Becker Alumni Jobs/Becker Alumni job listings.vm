@@ -1,0 +1,33 @@
+## List jobs in descending order by creation date.
+
+#set ( $block = $_XPathTool.selectSingleNode( $contentRoot, "/system-index-block") )
+#set ( $sys_pages = $_XPathTool.selectNodes( $block, "//system-page") )
+
+$_SortTool.addSortCriterion("created-on", "", "number", "descending", "")  
+$_SortTool.sort($sys_pages) 
+
+<p>
+    The Alumni Jobs Bulletin is a resource for Union College Alumni seeking employment.&#160;The positions in the Jobs Bulletin are sent to the Becker Career Center by employers&#160;looking to hire&#160;experienced professionals. Jobs are posted as received.
+</p>
+<p>
+    Please contact <a href="mailto:carusor@union.edu">Rochelle Caruso </a>if you have any questions or if you have a position&#160;you would liked posted in the&#160;Jobs Bulletin.
+</p>
+
+<ul class="post-list post-list-alt">
+
+#foreach ($page in $sys_pages)
+
+    #if ( $_XPathTool.selectSingleNode( $page, "dynamic-metadata[name='hidden'][value = 'No']") )
+
+        #set ( $link = $page.getChild('link').value )
+        #set ( $title = $_EscapeTool.xml( $page.getChild('title').value) )
+        #set ( $pubDate = $_DateTool.getDate($page.getChild('created-on').value))
+        #set ( $pubDateFormatted = $_DateTool.format('medium', $pubDate) )
+
+        <li>
+            <a href="${link}" title="${pubDateFormatted}">${title}</a>
+        </li>
+    #end
+#end
+
+</ul>
