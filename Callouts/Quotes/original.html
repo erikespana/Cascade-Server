@@ -1,0 +1,33 @@
+<script type="text/javascript">// <![CDATA[
+$('.small-slides').cycle({
+random: 1,    				 
+timeout: 0,
+cleartypeNoBg: true,
+before:  function() {
+$('#caption-quote').html(this.title);
+$('a#photolink').attr("href", this.href);
+$('a#photolink').attr("title", this.title);
+}
+});
+// ]]></script>
+<div class="feature-widget-quote aside-widget aside-banner-overlap  small-slides-outer" style="min-height: none;">
+	<div class="feature-header-quote">
+		<div class="title">Unfiltered</div>
+	<div class="subtitle">Student perspectives on <a href="http://muse.union.edu/unfiltered" target="_blank" title="Unfiltered">Union.</a></div>
+	</div>
+	<div class="feature-content">
+		<div class="small-slides">
+			<a href="http://muse.union.edu/unfiltered/2014/03/17/spring/" target="_blank" title="Spring term is even more wonderful than it is rumored to be. The campus comes to life after months of hibernation and the energy is pervasive and dangerously contagious. Thinking about really buckling down with work during spring term? Forget about it. The second you see students laying out on West Beach soaking in the spring sunshine and throwing around a frisbee you&#8217;ll forget all about that econ assignment you had. Or was it English?">
+				<img alt="Catherine Ziac '14" border="1" height="160" src="/render/file.act?path=/campus/img/cat-test1.jpg" style="border: 1px solid #978;" width="198" />
+			</a>
+			<a href="http://muse.union.edu/unfiltered/2014/01/28/5-best-things-about-living-in-a-sorority/" target="_blank" title="I cannot stress enough that there really is no better built in support system than your sisters. I live with 40 of the best girls I have ever known, and every single one of them has been there for me through thick and thin, every step of the way.">
+				<img alt="Maura Driscoll '15" border="1" height="160" src="/render/file.act?path=/campus/img/maura.jpg" style="border: 1px solid #978;" width="198" />
+			</a>
+			<a href="https://muse.union.edu/unfiltered/2014/03/06/club-elections/" target="_blank" title=" I&#8217;m happy to say that I was elected Vice President of the Russian and Eastern European Culture Club for the 2014-2015 school year, a position I&#8217;m honored to receive and excited to manage. I&#8217;d previously acted as co-secretary of the REECC, sending out emails about our events and meetings and trying to get more people to come to our event.">
+				<img alt="Cam Duval '16" border="1" height="160" src="/render/file.act?path=/campus/img/cam.jpg" style="border: 1px solid #978;" width="198" />
+			</a>
+		</div>
+		<div id="caption-quote"></div>
+		<span>MORE TRADITIONS</span>
+	</div>
+</div>
