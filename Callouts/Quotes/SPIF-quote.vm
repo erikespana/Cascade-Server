@@ -1,0 +1,52 @@
+## A Callout that displays a random photo and quote, using the Cycle plugin.
+## Assumes this SPIF's calling page has included the Cycle plugin file.
+
+## Constants
+#set ( $block = $_XPathTool.selectSingleNode( $contentRoot, "/system-data-structure") )
+#set ( $slides = $_XPathTool.selectNodes( $block, "//slide") )
+
+## Callout variables
+#set ( $calloutTitle = $block.getChild('title').value )
+#set ( $subtitle = $block.getChild('subtitle').value )
+#set ( $link = $block.getChild('link').value )
+
+<script type="text/javascript">// <![CDATA[
+$('.small-slides').cycle({
+    random: 1,    				 
+	timeout: 0,
+	cleartypeNoBg: true,
+	before:  function() {
+		$('#caption-quote').html(this.title);
+		$('a#photolink').attr("href", this.href);
+		$('a#photolink').attr("title", this.title);
+	}
+});
+// ]]></script>
+
+<div class="feature-widget-quote aside-widget aside-banner-overlap  small-slides-outer" style="min-height: none;">
+	<div class="feature-header-quote">
+		<div class="title">${_EscapeTool.xml( $calloutTitle )}</div>
+		<div class="subtitle">
+			<a href="${link}" target="_blank" title="Subtitle">
+				${_EscapeTool.xml( $subtitle )}
+			</a>
+		</div>
+	</div>
+	<div class="feature-content">
+		<div class="small-slides">
+			#foreach ($slide in $slides)
+				#set ( $caption = $_EscapeTool.xml( $slide.getChild('caption').value) )
+				#set ( $img = $slide.getChild('photo') )
+				#set ( $link = $slide.getChild('link').value )
+				#set ( $imgLink = $img.getChild('link').value )
+                #set ( $imgAlt = $img.getChild('name').value )
+
+				<a href="${link}" target="_blank" title="${caption}">
+					<img alt="${imgAlt}" border="1" height="160" src="${imgLink}" style="border: 1px solid #978;" width="198" />
+				</a>
+
+			#end
+		</div>
+		<div id="caption-quote"></div>
+	</div>
+</div>
