@@ -1,5 +1,5 @@
 **Description**
-An XSLT format that dynamically generates the include files (CSS and javascript) for the <head> section of a page.
+An XSLT format that generates the HTML for the Head section CSS and javascript include tags that appear in the Head section of each page.
 
 Goals
 * Ensure certain CSS and javascript code (e.g. Google Analytics) are added to each page.
