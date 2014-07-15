@@ -13,21 +13,24 @@ try
     $af = AssetFactory::getAsset( $service, AssetFactory::TYPE, $id );
     
     // Try to retrieve an asset factory object (obviously a test object)
-    echo L::ID . $af->getId() . BR .
+    echo "
+<b>Before</b>" . L::ID . $af->getId() . BR .
          "Placement folder path: " .
          $af->getPlacementFolderPath() . BR .
          "Placement folder ID: " .
-         $af->getPlacementFolderId() . BR;
+         $af->getPlacementFolderId() . BR . BR;
     
     // Then, manipulate it by changing something inside, using the mutating methods defined in the class AssetFactory.
     
-    
-    $a = $af->setPlacementFolder( $cascade->getFolder( $targetPath, 'reboot' ));
-    if( isset( $a ) ) echo $a->getId() . BR;
+    echo "
+<b>Calling setPlacementFolder()</b>" . BR;
+    $a = $af->setPlacementFolder( $cascade->getFolder( $targetPath, 'reboot' ))->edit();
+    //if( isset( $a ) ) echo $a->getId() . BR;
     
     
     // Verify that the placement folder was changed.
-     echo L::ID . $af->getId() . BR .
+     echo "
+<b>After</b>" .L::ID . $af->getId() . BR .
          "Placement folder path: " .
          $af->getPlacementFolderPath() . BR .
          "Placement folder ID: " .
