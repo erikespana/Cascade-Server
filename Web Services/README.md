@@ -1,5 +1,3 @@
-# Web Services #
-
 Based on Wing Ming Chan's [web services library](http://www.upstate.edu/cascade-admin/projects/web-services/index.php).
 
 1. **test-asset-factory.php**
