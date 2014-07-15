@@ -17,13 +17,13 @@ try
          "Placement folder path: " .
          $af->getPlacementFolderPath() . BR .
          "Placement folder ID: " .
-         $af->getPlacementFolderId();
+         $af->getPlacementFolderId() . BR;
     
     // Then, manipulate it by changing something inside, using the mutating methods defined in the class AssetFactory.
-    $af->setPlacementFolder( $targetPath );
+    $af->setPlacementFolder( $cascade->getFolder( $targetPath, 'reboot' ));
     
     // Verify that the placement folder was changed.
-    echo L::ID . $af->getId() . BR .
+     echo L::ID . $af->getId() . BR .
          "Placement folder path: " .
          $af->getPlacementFolderPath() . BR .
          "Placement folder ID: " .
@@ -34,12 +34,5 @@ catch( Exception $e )
 {
     echo S_PRE . $e . E_PRE;
 }
-
-/*
-$af = $cascade->getAsset(
-                AssetFactory::TYPE, 'cdb841748b7f08560047808b2bbd015b' );
-            $af->setPlacementFolder(
-                $cascade->getAsset( Folder::TYPE, '60cbe98d8b7f0856002a5e1142a950e2' ) );
-*/
 
 ?>
