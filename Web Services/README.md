@@ -5,7 +5,7 @@
  http://www.upstate.edu/cascade-admin/projects/web-services/index.php
 
 
-1. test-asset-factory.php ####
+1. **test-asset-factory.php**
 
   A simple script that gets an asset factory object and changes the Placement Folder, using the methods defined in the following classes.
 
