@@ -20,7 +20,11 @@ try
          $af->getPlacementFolderId() . BR;
     
     // Then, manipulate it by changing something inside, using the mutating methods defined in the class AssetFactory.
-    $af->setPlacementFolder( $cascade->getFolder( $targetPath, 'reboot' ));
+    
+    
+    $a = $af->setPlacementFolder( $cascade->getFolder( $targetPath, 'reboot' ));
+    if( isset( $a ) ) echo $a->getId() . BR;
+    
     
     // Verify that the placement folder was changed.
      echo L::ID . $af->getId() . BR .
