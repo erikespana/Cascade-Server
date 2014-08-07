@@ -5,18 +5,16 @@
 
 #### Admissions ####
 
-During the academic year: published every 15 minutes starting at 1 minute past the hour (0 1/15 * ? * SUN-SAT).
-During the summer: published at 10:01 every weekday (0 1 10 ? * MON-FRI).
-* [/admissions/index.php](http://www.union.edu/admissions/)
+Published every hour starting at 9:01 am and ending at 2:01 am (0 1 9-2 ? * SUN-SAT).
 * [/admissions/blogs/index.php](http://www.union.edu/admissions/blogs/)
 * [/admissions/applicant_portal/sidebars/login.php]
 
-Published daily at 5 pm (no cron expression required):
+Published daily at 5:15 pm (no cron expression required):
 
 * [Admissions Open-Houses](http://www.union.edu/admissions/visit/open-houses/)
 
-Published daily at 3 am (no cron expression required):
-
+Published daily at 12:05 am (no cron expression required):
+* [Admissions homepage](http://www.union.edu/admissions/)
 * [Admissions in Your Area](http://www.union.edu/admissions/in-your-area/)
 
 
