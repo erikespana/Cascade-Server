@@ -9,5 +9,4 @@ Gets an asset factory object and changes the placement folder, using the followi
 
 **news-asset-factories.php**
 
-Building on test-asset-factory.php, this script changes the placement folder of multiple asset factory objects.
-  * Use case: Automates our news system's [monthly maintenance tasks](https://github.com/espanae/Cascade-News/wiki/Maintenance).
+Building on **test-asset-factory.php**, this script changes the placement folder of multiple asset factory objects. In this example, I am automating the [monthly maintenance tasks](https://github.com/espanae/Cascade-News/wiki/Maintenance) for our News site.
