@@ -1,6 +1,6 @@
 **news-asset-factories.php**
 
-Automates the [monthly asset factory updates](https://github.com/espanae/Cascade-News/wiki/Maintenance) required for our News site.
+Automates the monthly [asset factory updates](https://github.com/espanae/Cascade-News/wiki/Maintenance) required by our Cascade Server News application.
 
 **test-asset-factory.php**
 
