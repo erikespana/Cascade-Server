@@ -1,0 +1,102 @@
+ ## dates & deadlines 2-column layout
+<style type="text/css">
+  .date-row {
+    overflow: hidden;
+    font-weight: 400;
+      font-size: .8em;
+  }
+  .date-col-l {
+    width: 30%;
+    float: left;
+    text-align: center;
+    font-size: 1.8em;
+    font-weight: 600;
+    line-height: 105%;
+  }
+  .date-col-r {
+    width: 50%;
+    float: left;
+    margin-left: 1.0em;
+    text-align: left;
+    font-size: 1.2em;
+  }
+  .date-desc {
+    font-weight: 300;
+    font-size: 11pt;
+  }
+  .uppercase { text-transform: uppercase; }
+  .see-all { float: right; line-height: 80%;}
+</style>
+
+<div class="aside-widget">
+
+  <div class="image-with-caption-admissions">
+    <div class="caption">DATES &amp; DEADLINES</div>
+  </div>
+
+## Load all events tagged for the homepage
+#set ($calendar = $_XPathTool.selectNodes($contentRoot, "/system-data-structure/event[homepage/value = 'Yes']") )
+#set ($now = $_DateTool.getDate() )
+
+
+  
+## If there are events, ...
+#if ( $calendar.size() > 0 )
+
+  ## Sort in chronological order
+  $_SortTool.addSortCriterion("start-date", "", "number", "ascending", "")  
+  $_SortTool.sort($calendar)
+  
+  #set ( $count = 0 )  
+  #foreach ( $event in $calendar )
+   
+    #set ( $title = $event.getChild('title-short').value )
+    #set ( $page  = $event.getChild('page') )
+    #set ( $path  =  $page.getChild('path').value )
+    #set ( $link  =  $page.getChild('link').value )
+    #set ( $eventDate = $_DateTool.toDate("MM-dd-yyyy", $event.getChild('start-date').value ))
+    ##set ( $link = $event.getChild('link').value)
+    
+    ## If the event takes place in the future
+    #if ( $_DateTool.whenIs($eventDate).minutes > 0)
+      ## Update the count
+      #set ( $count = $count + 1 )
+      
+      <div class="date-row">
+      
+        ## Print the month and day (e.g. Aug 12)
+        <div class="date-col-l uppercase">
+          $_DateTool.format('MMM', $eventDate)
+          <br/>
+          $_DateTool.format('dd', $eventDate)
+        </div>
+      
+        ## Print the short title with optional link
+        <div class="date-col-r">
+          #if ($path != '/')
+            ## linked title
+            <a href="${link}">${_EscapeTool.xml($title)}</a>
+          #else
+            ## just title
+            ${_EscapeTool.xml($title)}
+          #end
+          <p class="uppercase date-desc">$_DateTool.format('EEE', $eventDate)</p>
+        </div>
+        
+      </div>
+    #end
+    
+    ## Stop the foreach loop after three future events have been generated.
+    #if ( $count == 3 )  
+        #break
+    #end
+  #end
+    <div class="date-row">
+      <div class="see-all">
+        <a href="/admissions/apply/dates/index">See all</a>
+      </div>
+    </div>       
+    </div>
+#else
+    <p>There are no Dates & Deadlines at this time.</p>
+#end
