@@ -1,0 +1,97 @@
+## Load all events
+#set ( $calendar = $_XPathTool.selectNodes($contentRoot, "/system-data-structure/event") )
+#set ($now = $_DateTool.getDate() )
+
+#set ($titles = [])
+##set ($pages = [])
+#set ($paths = [])
+#set ($links = [])
+#set ($eventDates = [])
+
+## Make sure there are events
+#if ( $calendar.size() > 0 )
+
+  ## Sort the dates in chronological order
+  $_SortTool.addSortCriterion("start-date", "", "number", "ascending", "")  
+  $_SortTool.sort($calendar)
+  
+  ## NEW WORK STARTS HERE
+  
+  #foreach ($event in $calendar)
+
+    #set ( $title = $event.getChild('title-long').value)
+    #set ( $page = $event.getChild('page'))
+    #set ( $path = $page.getChild('path').value )
+    #set ( $link = $page.getChild('link').value )
+    #set ( $eventDate = $_DateTool.toDate("MM-dd-yyyy", $event.getChild('start-date').value ))
+    
+    ## Fill the arrays with all the data!
+    
+    #set($stat = $titles.add($title))
+    ##set($stat = $pages.add($page))
+    #set($stat = $paths.add($path))
+    #set($stat = $links.add($link))
+    #set($stat = $eventDates.add($eventDate))
+    
+  #end
+  
+  #set($stat = $titles.add("buffer"))
+  #set($stat = $paths.add("buffer"))
+  #set($stat = $links.add("buffer"))
+  #set($stat = $eventDates.add("buffer"))
+ 
+  ## NEW WORK ENDS HERE
+  
+  #set ($end = $titles.size() - 1)
+  #set ($range = [0..$end])
+  #set ($conFlag = 0)
+    
+  <ul>
+  #foreach ($i in $range)
+    #set ($counter = $foreach.index)
+    
+    #set ( $title = $titles.get($counter))
+    ##set ( $page = $pages.get($counter))
+    #set ( $path = $paths.get($counter))
+    #set ( $link = $links.get($counter))
+    #set ( $eventDate = $eventDates.get($counter))
+    
+    #set ($next = $counter + 1)
+    
+    ## Check whether the event has past
+    #if ( $_DateTool.whenIs($eventDate).minutes > 0)
+      
+      #if ($title == $titles.get($next))
+        #set($start = $eventDate)
+        #set($conFlag = 1)
+      #else
+        <li>
+          
+        #if($conFlag == 1)
+          $_DateTool.format('MMM. d', $start) - $_DateTool.format('MMM. d', $eventDate):
+          
+          #set($conFlag = 0)
+        #else
+          ## Print the month and day (e.g. Aug 12)
+          $_DateTool.format('MMM. d', $eventDate )
+        #end
+        
+        ## Print the short title with optional link
+        #if ($path != '/')
+            ## linked title
+            <a href="${link}">${_EscapeTool.xml($title)}</a>
+        #else
+            ## just title
+            ${_EscapeTool.xml($title)}
+        #end
+        </li>
+      #end
+      
+      
+    #end
+
+  #end
+   </ul>
+#else
+    <p>There are no Dates & Deadlines at this time.</p>
+#end
