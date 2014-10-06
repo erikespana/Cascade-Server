@@ -1,15 +1,16 @@
-<?php      
+<?php   
     require_once('../auth_espanae_dev.php');
-    echo "\nrequire_once\n";
+    echo "require_once\n";
+
     try {
         echo "try\n";
+
         // reboot templates folder
         $id = '39ba0d27956aa05200c85bbbfba2a20b';
         $folder = Asset::getAsset ( $service, T::FOLDER, $id);
         $at = $folder->getAssetTree();
         
-    
-        function assetTreeGetTemplateId (AssetOperationHandlerService $service,
+        function assetTreeGetTemplateId(AssetOperationHandlerService $service,
                                         Child $child, $params=NULL, &$results=NULL )
         {
             // Make sure that $results (the third parameter passed in) is indeed an array
@@ -25,17 +26,21 @@
         echo "function assetTreeGetTemplateID\n";
         
         $function_array = array(
-            Template::TYPE => array( F::GETTEMPLATEID )
+            Template::TYPE => array( assetTreeGetTemplateId )
         );
         echo "function_array = array();\n";
+        
         $results = array();
         echo "results = array();\n";
+        
         // When you call AssetTree::traverse, make sure you pass in an array as the third argument.
         $at->traverse( $function_array, NULL, $results );
         echo "at->traverse();";
+        
         // After the call, $results[ 'assetTreeGetTemplateId' ] should be an array storing string keys and string values. You can then do this:
         $path_ids = $results[ 'assetTreeGetTemplateId' ];
         echo "path_ids = results[];\n";
+        
         echo "<ul>\n";
         foreach( $path_ids as $path => $id )
         {
@@ -44,7 +49,6 @@
         echo "</ul>\n";
         
         //$templates = $results[F::GET_ASSETS][Template::TYPE];
-        
         //var_dump( $templates );
     }
     catch ( Exception $e )
