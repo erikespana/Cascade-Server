@@ -14,14 +14,13 @@
                                         Child $child, $params=NULL, &$results=NULL )
         {
             // Make sure that $results (the third parameter passed in) is indeed an array
-            if( is_array( $results ) )
-               $results[ 'assetTreeGetTemplateId' ] = array();
+            //if( is_array( $results ) )
+            //   $results[ 'assetTreeGetTemplateId' ] = array();
             
             // Make sure that the type of the $child is indeed Template::TYPE
             if( $child->getType() == Template::TYPE )
-            
-            // Since you only need the path and ID strings, just store them in the array
-            $results[ 'assetTreeGetTemplateId' ][ $child->getPathPath() ] = $child->getId();
+                // Since you only need the path and ID strings, just store them in the array
+                $results[ $child->getPathPath() ] = $child->getId();
         }
         echo "function assetTreeGetTemplateID\n";
         
@@ -38,15 +37,17 @@
         echo "at->traverse();";
         
         // After the call, $results[ 'assetTreeGetTemplateId' ] should be an array storing string keys and string values. You can then do this:
-        $path_ids = $results[ 'assetTreeGetTemplateId' ];
-        echo "path_ids = results[];\n";
+        //$path_ids = $results[ 'assetTreeGetTemplateId' ];
+        //echo "path_ids = results[];\n";
         
-        echo "<ul>\n";
-        foreach( $path_ids as $path => $id )
+        <ul>\n";
+        foreach( $results as $path => $id )
         {
-            echo "<li>$path => $id</li>\n";
+            echo "
+            <li>$path => $id</li>\n";
         }
-        echo "</ul>\n";
+        echo "
+        </ul>\n";
         
         //$templates = $results[F::GET_ASSETS][Template::TYPE];
         //var_dump( $templates );
