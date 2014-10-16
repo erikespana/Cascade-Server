@@ -1,9 +1,9 @@
 ## Load all events
 #set ( $calendar = $_XPathTool.selectNodes($contentRoot, "/system-data-structure/event") )
-#set ($now = $_DateTool.getDate() )
 
+## Initialize arrays
 #set ($titles = [])
-##set ($pages = [])
+#set ($categories = [])
 #set ($paths = [])
 #set ($links = [])
 #set ($eventDates = [])
@@ -15,65 +15,63 @@
   $_SortTool.addSortCriterion("start-date", "", "number", "ascending", "")  
   $_SortTool.sort($calendar)
   
-  ## NEW WORK STARTS HERE
+  ## Load event components into arrays
   
   #foreach ($event in $calendar)
 
-    #set ( $title = $event.getChild('title-long').value)
     #set ( $page = $event.getChild('page'))
-    #set ( $path = $page.getChild('path').value )
-    #set ( $link = $page.getChild('link').value )
-    #set ( $eventDate = $_DateTool.toDate("MM-dd-yyyy", $event.getChild('start-date').value ))
     
     ## Fill the arrays with all the data!
     
-    #set($stat = $titles.add($title))
-    ##set($stat = $pages.add($page))
-    #set($stat = $paths.add($path))
-    #set($stat = $links.add($link))
-    #set($stat = $eventDates.add($eventDate))
+    #set( $stat = $titles.add( $event.getChild('title-long').value ))
+    #set( $stat = $categories.add( $event.getChild('category').value ))
+    #set( $stat = $paths.add( $page.getChild('path').value ))
+    #set( $stat = $links.add( $page.getChild('link').value ))
+    #set( $stat = $eventDates.add( $_DateTool.toDate("MM-dd-yyyy", $event.getChild('start-date').value )) )
     
   #end
   
+  ## stat is a dummy variable used to avoid printing "true"
   #set($stat = $titles.add("buffer"))
+  #set($stat = $categories.add("buffer"))
   #set($stat = $paths.add("buffer"))
   #set($stat = $links.add("buffer"))
   #set($stat = $eventDates.add("buffer"))
- 
-  ## NEW WORK ENDS HERE
   
   #set ($end = $titles.size() - 1)
   #set ($range = [0..$end])
-  #set ($conFlag = 0)
+  #set ($conFlag = 0) ## initialize "consecutive events" flag
     
   <ul>
   #foreach ($i in $range)
     #set ($counter = $foreach.index)
     
-    #set ( $title = $titles.get($counter))
-    ##set ( $page = $pages.get($counter))
-    #set ( $path = $paths.get($counter))
-    #set ( $link = $links.get($counter))
-    #set ( $eventDate = $eventDates.get($counter))
+    #set ( $title = $titles.get($i))
+    #set ( $category = $categories.get($i))
+    ##set ( $page = $pages.get($i))
+    #set ( $path = $paths.get($i))
+    #set ( $link = $links.get($i))
+    #set ( $eventDate = $eventDates.get($i))
     
-    #set ($next = $counter + 1)
+    #set ($next = $i + 1)
     
     ## Check whether the event has past
-    #if ( $_DateTool.whenIs($eventDate).minutes > 0)
-      
-      #if ($title == $titles.get($next))
-        #set($start = $eventDate)
-        #set($conFlag = 1)
+    #if ($_DateTool.whenIs($eventDate).minutes > -1440)
+      #if ($title == $titles.get($next) && $category == "Office Hours")
+        #if($conFlag == 0)
+            #set($start = $eventDate)
+            #set($conFlag = 1)
+        #end
       #else
         <li>
           
         #if($conFlag == 1)
-          $_DateTool.format('MMM. d', $start) - $_DateTool.format('MMM. d', $eventDate):
+            $_DateTool.format('MMM. d', $start) - $_DateTool.format('MMM. d', $eventDate):
           
-          #set($conFlag = 0)
+            #set($conFlag = 0)
         #else
-          ## Print the month and day (e.g. Aug 12)
-          $_DateTool.format('MMM. d', $eventDate )
+            ## Print the month and day (e.g. Aug 12)
+            $_DateTool.format('MMM. d', $eventDate ):
         #end
         
         ## Print the short title with optional link
@@ -86,7 +84,6 @@
         #end
         </li>
       #end
-      
       
     #end
 
