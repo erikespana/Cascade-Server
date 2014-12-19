@@ -1,16 +1,14 @@
-**Description**
-An XSLT format that generates the HTML for the Head section CSS and javascript include tags that appear in the Head section of each page.
+An XSLT format that generates the <Head> section CSS and javascript include tags for each page.
 
 Goals
-* Ensure certain CSS and javascript code (e.g. Google Analytics) are added to each page.
+* Ensure certain CSS and javascript code (e.g. jQuery) are added to each page.
 * Manage all CSS and javascript code in one place.
-* Flexibility to add or remove certain components from individual pages via the data definition.
+* Flexibility to add or remove libraries from individual pages via the data definition.
 
 * Default includes
 	* jQuery 1.6.4
 	* /_css/styles.css
 	* /_css/print.css
-	* Google Analytics
 	* Site Improve
 
 * Conditional includes
