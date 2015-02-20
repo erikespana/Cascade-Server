@@ -5,7 +5,7 @@
 - and the page hasn't expired.
   - To check, edit the asset and click the **Metadata** pane. Is there an **End Date** configured for them?
 
-**How it works**
+**Algorithm**
 
 1. Index pages in /admissions/visit/open-houses/schedule, by ascending folder order.
 2. XPath: //system-page[dynamic-metadata[name='public']/value = 'Yes'][system-data-structure/event-date > /system-index-block/@current-time]
