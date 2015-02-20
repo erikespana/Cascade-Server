@@ -10,6 +10,5 @@ _${_EscapeTool.xml($xml) to safely escape any special characters.
 
 
 **Q: Why isn't my open house appearing on the /admissions/visit/open-houses/index page?**
-A: Make sure:
-   - The page is being indexed.
-   - The page hasn't expired. To check, edit the asset and click the **Metadata** pane. Is there an **End Date** configured for them?
+- Make sure the page is being indexed.
+- The page hasn't expired. To check, edit the asset and click the **Metadata** pane. Is there an **End Date** configured for them?
