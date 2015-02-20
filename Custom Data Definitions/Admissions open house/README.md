@@ -18,7 +18,7 @@ For each page:
 
 ### Uses the following Velocity tools
 
-_XPathTool
-_SortTool
-_DateTool Uses this technique to get around the data definition date quirk.
-_${_EscapeTool.xml($xml) to safely escape any special characters.
+- _XPathTool
+- _SortTool
+- _DateTool Uses this technique to get around the data definition date quirk.
+- _${_EscapeTool.xml($xml) to safely escape any special characters.
