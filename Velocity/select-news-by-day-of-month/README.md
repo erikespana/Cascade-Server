@@ -1,7 +1,6 @@
 LOGIC:
 
-1. There are a certain number sets of stories, in the order of appearence, in a
-block.
+1. A data definition block contains a certain number set of stories, in the order of appearence.
 
 2. A certain number of days of the month corresponds to each of these sets.
 Example: If this is taken to be 3 days, every 3 days corresponds to 1 set of 
