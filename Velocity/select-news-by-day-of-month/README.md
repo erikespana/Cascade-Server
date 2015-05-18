@@ -32,3 +32,5 @@ For this to work fine, there must be at the least
 number of stories in the block.
 
 -+-+-+-+--+-+-+-+--+-+-+-+--+-+-+-
+
+More applications of the Modulus Operator: http://stackoverflow.com/questions/2609315/recognizing-when-to-use-the-modulus-operator]
