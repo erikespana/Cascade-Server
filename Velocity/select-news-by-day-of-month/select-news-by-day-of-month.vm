@@ -1,0 +1,68 @@
+## Required number of stories
+#set ($numberOfStories = 2)
+
+## How many days should I get new set of stories after?
+#set ($refreshInterval = 3)
+
+## List of events
+## Erik: Changed nodes selected to match the live data.
+#set ($calendar = $_XPathTool.selectNodes($contentRoot, "//item"))
+
+## Get Today's Day
+#set ($date = $_DateTool)
+#set ($currentDate = $date.get('dd'))
+
+## If we have stories:
+#if ($calendar.size() > 0)
+    
+    ## Convert the Day from String to Int
+    #set ($Integer = 0)
+    #set ($day = $Integer.parseInt($currentDate) - 1) 
+    ## Subtraction of one is needed to map date to corresponding set of stories
+    
+    ## For 31 days, treat the last day to be part of the last set
+    #if($day > 29)
+        #set ($day = 29)
+    #end
+    
+    ## To test, adjust this
+    ##set ($day = 12)
+    
+    ## Map day to n-th set of stories from the block.
+    #set ($setNumber = ($day - ($day % $refreshInterval)))
+    
+    ## Print the set of stories containing the specified number of stories
+    #foreach($counter in [1..$numberOfStories])
+        
+        ## Index starts from 0, so setNumber - 1. We need to add $counter to get
+        ## specified number of stories. So $index = $setNumber + $counter - 1
+        #set ($index = $setNumber + $counter - 1)
+        ## Event Object
+        #set ($event = $calendar.get($index))
+        
+        ## Event Details
+        #set ($headline = $_EscapeTool.xml($event.getChild('headline').value))
+        #set ($link  = $_EscapeTool.xml($event.getChild('link').value))
+        #set ($imagePath = 
+            $_EscapeTool.xml($event.getChild('image').getChild('path').value))
+        
+        ## Generate HTML Div ID
+        ## ID starts from "news2" since first story is manually entered.
+        ###set ($idNum = $counter + 1) 
+        ##set ($divId = "news" + ${idNum})
+        
+        ## ----- PRINT THE NEWS ITEM! -----
+        
+        <div class="col-xs-4 col-md-3">
+            <div class="thumbnail">
+                <a href="${link}" title="Click to learn more">
+                    <img alt="${headline}" class="img-responsive" src="${imagePath}"/>
+                </a>
+                <div class="caption-three">   
+                    <a href="${link}" title="${headline}">${headline}</a>
+                </div>
+            </div>
+        </div> 
+        
+    #end
+#end
