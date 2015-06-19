@@ -1,7 +1,7 @@
 
 Creates an [XML sitemap](http://www.union.edu/feeds/sitemaps/reboot.xml), using the [sitemaps.org](http://www.sitemaps.org/protocol.html) protocol (same protocol used by Google, Yahoo, and Bing).
 
-I wrote this because Hannon Hill's [XSLT script](https://github.com/hannonhill/XSLT-Workbook/tree/master/Site-Map) doesn't work on Cascade Server sites employing a folder/page asset pair to represent a single webpage.
+I wrote this because Cascade Server Site employs a folder/page to represent each webpage. Hannon Hill's example [XSLT script](https://github.com/hannonhill/XSLT-Workbook/tree/master/Site-Map) assumes the use of individual page assets.
 
 **Google Sitemap 2.vm**
 
