@@ -1,8 +1,8 @@
-#* LOCATOR TOOL VERSION
-*#
+## Global variables
+## Set Cascade site and base folders to crawl
 
 #set ( $site = "SiteName" )
-
 #set ( $baseFolders = ["/" ] )
 
+## Run report using variables above.
 #import ( "pages.functions.vm" )
