@@ -1,0 +1,8 @@
+#* LOCATOR TOOL VERSION
+*#
+
+#set ( $site = "SiteName" )
+
+#set ( $baseFolders = ["/" ] )
+
+#import ( "pages-nav.import.vm" )
