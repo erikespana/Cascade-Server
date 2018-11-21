@@ -5,4 +5,4 @@
 
 #set ( $baseFolders = ["/" ] )
 
-#import ( "pages-nav.import.vm" )
+#import ( "pages.functions.vm" )
