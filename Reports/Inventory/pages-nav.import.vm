@@ -1,0 +1,50 @@
+#* LOCATOR TOOL VERSION
+*#
+#set ( $today = $_DateTool.getDate() ) ## get start execution time
+#set ($dateFormat = "yyyy-MM-dd kk:mm")
+#set ($htm = "")
+#set ($results = 0)
+<pre>
+"path", "name", "display-name", "title", WWW_Area, section-branding, menu, customer, status, contact-display, contact, type, Language, "Modified_Date","data Definition",publishable,indexable, "last modified",last modified by,"id"
+#foreach ( $folder in $baseFolders )
+## locate a folder from the $baseFolders array
+#set( $locFolder = $_.locateFolder( $folder, $site) )
+## Create arraylist with all of the children from the folder
+#set($locPages = $locFolder.children)
+##${folder}.children.size(): $locPages.size()
+## Loop through folder and check for pages
+#loopFolderItems($locPages)
+##${folder} $locPages.size() $recentlyModifiedItems.size()
+#end
+#set ( $end = $_DateTool.getDate() ) ## gets time now
+#set ( $exectime = $_DateTool.difference($today, $end) )
+Execution time: ${exectime}
+Date: $_DateTool.format($dateFormat, $end)
+</pre>
+#macro (loopFolderItems $children)
+#foreach( $item in $children )
+##      Check that folder child is a page and that it has a lastPublishedOn value.
+#if( $item.assetType == "page" )
+#row( $item )
+#elseif ( $item.assetType == "folder" )
+#if ( $item.children && ($item.children.size() > 0) )
+##if ( $item.name != "artwork" )
+#loopFolderItems($item.children)
+##end
+#end
+#end
+#end
+#end
+#macro ( row $a )
+## $_PropertyTool.outputProperties($a)
+#set ($modified =	$_DateTool.format($dateFormat, $a.lastModified))
+#set ( $dName = $_DisplayTool.alt( $_EscapeTool.xml( $a.metadata.displayName), '""') )
+#set ( $title = $_DisplayTool.alt( $_EscapeTool.xml( $a.metadata.title), '""') )
+#set ( $Modified_Date = $_DisplayTool.alt( $a.metadata.getDynamicField("Modified_Date").value, '""') )
+#if ( $_PropertyTool.isNull($a.dataDefinitionPath) )
+#set ( $datadef = "" )
+#else
+#set ( $datadef = $a.dataDefinitionPath )
+#end
+"${a.path}","${a.name}","${dName}","${title}","${Modified_Date}","${datadef}","${a.shouldBePublished}", "${a.shouldBeIndexed}", "${modified}", "${a.lastModifiedBy}", "${a.identifer.id}"
+#end
